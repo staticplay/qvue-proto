@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en" class="s-app">
+<head>
+  <meta charset="UTF-8">
+  <title>NAVIS Narrowcast Q-Vue</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <style>
+    .c-table tbody tr:first-child {
+      border-bottom: inherit;
+      border-top: inherit;
+    }
+
+    .c-table tbody tr {
+      border-top: rgba(0, 0, 0, .06) 1px solid !important;
+      border-bottom: none;
+    }
+
+    .c-table td, .c-table th {
+      border-right: none !important;
+      padding: 15px 5px !important;
+    }
+    .c-table tbody tr td:first-child  { width: 24px; }
+
+    .c-table td:nth-child(2) .c-table__content {
+      font-weight: bold !important;
+    }
+
+    .c-table td:nth-child(2), .c-table th:nth-child(2) {
+      text-align: start;
+    }
+
+    .c-table th,
+    .c-table td {
+      text-align: right;
+      font-size: 13px;
+      color: rgba(0, 0, 0, .4);
+    }
+
+    .c-table td:first-child,
+    .c-table th:first-child {
+      padding-left: .5em !important;
+    }
+
+    .c-table td:last-child,
+    .c-table th:last-child {
+      padding-right: 1.5em !important;
+    }
+
+    .c-label {
+      margin: 0;
+    }
+
+    .c-table__content {
+      color: rgba(0, 0, 0 , .6);
+    }
+
+    .o-article:-webkit-full-screen {
+      font-size: 18px;
+    }
+
+    .o-article:-webkit-full-screen h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 1em 0 1.5em;
+    }
+
+    .o-article:-webkit-full-screen .c-table,
+    .o-article:-webkit-full-screen .c-table td,
+    .o-article:-webkit-full-screen .c-table th {
+      font-size: 24px;
+      border: none;
+    }
+
+    .o-article:-webkit-full-screen .c-table thead tr {
+      background-color: black !important;
+    }
+
+    .o-article:-webkit-full-screen .c-table th {
+      color: white !important;
+      font-size: 22px;
+    }
+
+    .o-article:-webkit-full-screen .c-table tr {
+      background-color: rgba(255, 255, 255, .15);
+      border-bottom: 2px solid black;
+    }
+
+    .o-article:-webkit-full-screen .c-table__content {
+      color: white;
+    }
+
+    .o-article:-webkit-full-screen .c-card {
+      background-color: black;
+    }
+
+    .o-article:-webkit-full-screen .c-table .c-label {
+      background-color: rgba(255, 255, 255, .2);
+      color: white;
+      font-size: 20px;
+    }
+
+    .o-article:-webkit-full-screen td:nth-child(2) {
+      font-size: 26px;
+    }
+
+    .o-article:-webkit-full-screen .c-icon {
+      height: 40px;
+      width: 40px;
+    }
+
+    .o-article:-webkit-full-screen .c-icon {
+      fill: white;
+    }
+
+    .o-article:-webkit-full-screen .is-high-priority,
+    .o-article:-webkit-full-screen .is-high-priority .is-negative {
+      background-color: #E53A2F !important;
+      color: white !important;
+    }
+
+    .o-article:-webkit-full-screen .is-medium-priority,
+    .o-article:-webkit-full-screen .is-medium-priority .is-alterable {
+      background-color: #FE8C00 !important;
+      color: white !important;
+    }
+
+    .c-message {
+      background-color: #1a6dc9;
+      color: white;
+      position: fixed;
+      box-shadow: 0 1px 3px #666;
+      padding: 1em 1.5em;
+      border-radius: 3px;
+      bottom: 1em;
+      z-index: 10;
+    }
+
+    .o-article:-webkit-full-screen .c-message {
+      background-color: transparent;
+      color: white;
+      box-shadow: none;
+      padding: 0;
+      position: static;
+    }
+
+    .o-article:-webkit-full-screen .c-message--large {
+      font-size: 28px;
+    }
+
+
+    .c-metric {
+      text-align: center;
+    }
+
+    .c-metric__label,
+    .c-metric__value {
+      display: block;
+    }
+
+    .o-article:-webkit-full-screen .c-metric {
+      background-color: rgba(255, 255, 255, .15);
+      min-height: 200px;
+      min-width: 200px;
+      color: white;
+      font-size: 24px;
+      padding: 1em;
+    }
+
+    .o-article:-webkit-full-screen .c-metric__value {
+      font-size: 90px;
+      font-weight: bold;
+      margin: 25px 0;
+    }
+
+    .is-operator {
+      opacity: .2;
+    }
+
+    .is-other {
+      opacity: .6;
+    }
+
+    .o-article:-webkit-full-screen .c-metric--negative {
+      background-color: #E53A2F;
+    }
+
+    .o-article:-webkit-full-screen .c-metric--positive {
+      background-color: #1E82DE;
+    }
+
+    .is-online {
+      fill: #8BC34A;
+    }
+
+    .o-article:-webkit-full-screen .o-article__detail {
+      flex: auto;
+      width: 100%;
+    }
+
+    .o-article__summary {
+      display: none;
+    }
+
+    .o-article:-webkit-full-screen .o-article__summary {
+      display: block;
+    }
+
+  </style>
+</head>
+<body class="s-app__body">
+    <header class="o-header u-hide@sm">
+      <div class="o-toolbar">
+        <div class="u-column--bar">
+          <h1 class="o-toolbar__brand">NAVIS</h1>
+          <h2 class=""> Narrowcast Q-Vue</h2>
+        </div>
+        <div class="u-column--bar">
+          <div class="o-toolbar__link">
+            <button class="c-button c-button--icon" onClick="requestFullScreen()">
+              <svg class="c-icon c-icon--fullscreen  " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Fullscreen</title><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path></svg>
+            </button>
+          </div>
+          <div class="o-toolbar__link">
+            <div class="c-dropdown c-dropdown--right">
+              <button class="c-button c-button--icon">
+                <svg class="c-icon c-icon--help  " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Help</title><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"></path></svg>
+              </button>
+              <ul class="c-dropdown__menu u-start">
+                <li><button class="c-dropdown__link">Help / Contact Us</button></li>
+                <li><button class="c-dropdown__link">NAVIS University</button></li>
+                <li><button class="c-dropdown__link">Knowledge Base</button></li>
+                <li><button class="c-dropdown__link">Best Practices</button></li>
+              </ul>
+            </div>
+          </div>
+          <div class="o-toolbar__link">
+            <div class="c-dropdown c-dropdown--large c-dropdown--right" aria-disabled="true">
+              <span class="c-avatar" title="Colin Morrison (Bend Resort Lodging)" style="background: rgb(191, 255, 225);">CM</span>
+              <span class="c-indicator c-indicator--negative u-absolute--bottom-right"></span>
+              <div class="c-dropdown__menu" style="min-width: 25rem;">
+                <div class="u-row u-trailer--quarter">
+                  <div class="u-column--4 u-center">
+                    <span class="c-avatar c-avatar--huge" title="Colin Morrison (Bend Resort Lodging)" style="background: rgb(191, 255, 225);">CM</span>
+                  </div>
+                  <div class="u-column--8 u-start">
+                    <div class="u-ellipsis"><strong>Colin Morrison</strong></div>
+                    <div class="u-ellipsis u-font-size--small">morrison.colin@gmail.com</div>
+                    <div class="u-ellipsis">14133 - Bend Resort Lodging</div>
+                  </div>
+                </div>
+                <div class="u-row">
+                  <div class="u-push--8 u-column--4 u-end">
+                    <button class="c-button c-button--anchor">Logout</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="o-main">
+
+
+      <article class="o-article o-article--2pane" id="article">
+
+
+      <!-- Active Queue -->
+        <div class="o-article__detailOFF u-wrapper">
+
+
+          <div class="o-article__summary">
+
+            <!-- Briefing top view -->
+            <div class="u-row u-row--today">
+              <div class="u-column">
+                <div class="c-metric c-metric--negative">
+                  <span class="c-metric__label">Abandon %</span>
+                  <span class="c-metric__value">15%</span>
+                </div>
+              </div>
+
+              <div class="u-column">
+                <div class="c-metric c-metric--negative">
+                  <span class="c-metric__label">Calls Answered</span>
+                  <span class="c-metric__value">
+                  <span>2</span>
+                  <span class="is-operator">/</span>
+                  <span class="is-other">3</span>
+                </span>
+                </div>
+              </div>
+              <div class="u-column">
+                <div class="c-metric c-metric--positive">
+                  <span class="c-metric__label">Avg. Handle Time</span>
+                  <span class="c-metric__value">1m</span>
+                </div>
+              </div>
+              <div class="u-column">
+                <div class="c-metric">
+                  <span class="c-metric__label">Held Calls</span>
+                  <span class="c-metric__value">1</span>
+                </div>
+              </div>
+              <div class="u-column">
+                <div class="c-metric c-metric--positive">
+                  <span class="c-metric__label">Chats Answered</span>
+                  <span class="c-metric__value">
+                  <span>24</span>
+                  <span class="is-operator">/</span>
+                  <span class="is-other">1</span>
+                </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Message -->
+
+            <div class="u-row u-center u-leader u-trailer">
+          <span class="c-message c-message--large u-leader">
+            <!-- Giftcard Icon -->
+            <svg class="c-icon c-icon--card-giftcard  " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Card Giftcard</title><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"></path></svg>
+            $5 Starbucks gift card to anyone who gets more than 5 conversions today!</span>
+            </div>
+
+          </div>
+
+
+
+
+          <div class="c-card c-card--bleed">
+            <div class="u-row">
+              <div class="u-column--6">
+              <h1 class="u-leader--half">Active Queue</h1>
+              </div>
+              <div class="u-column--6 u-end">
+
+              </div>
+            </div>
+            <table class="c-table c-table--toggle js-table-view">
+              <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col" class="c-table__priority-1">Agent Name</th>
+                <th scope="col" class="c-table__priority-1">Skill</th>
+                <th scope="col" class="c-table__priority-2">Campaign</th>
+                <th scope="col" class="c-table__priority-3">ANI</th>
+                <th scope="col" class="c-table__priority-4">Type</th>
+                <th scope="col" class="c-table__priority-1">ET</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              <tr class="is-high-priority">
+                <td>
+                  <!-- Phone in Talk Icon -->
+                  <svg class="c-icon c-icon--phone-in-talk is-negative" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone In Talk</title><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 12h2c0-4.97-4.03-9-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2c0-2.76-2.24-5-5-5v2c1.66 0 3 1.34 3 3z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content">Gregory M.</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Golf</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Winter Special</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (249) 123-6378</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">New Guest</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content is-negative">11 min</span>
+                </td>
+              </tr>
+
+              <tr class="is-high-priority">
+                <td>
+                  <!-- Chat bubble Icon -->
+                  <svg class="c-icon c-icon--chat-bubble is-negative " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Chat Bubble</title><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content">Lisa P.</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Feedback form</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (234) 975-3983</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">New Guest</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content is-negative">3 min</span>
+                </td>
+              </tr>
+
+              <tr class="is-high-priority">
+                <td>
+                  <!-- Phone in Talk Icon -->
+                  <svg class="c-icon c-icon--phone-in-talk is-negative" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone In Talk</title><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 12h2c0-4.97-4.03-9-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2c0-2.76-2.24-5-5-5v2c1.66 0 3 1.34 3 3z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content">Kathryn L.</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">2</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (234) 975-3983</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Previous Guest</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content is-negative">1 min</span>
+                </td>
+              </tr>
+
+              <tr class="is-high-priority">
+                <td>
+                  <!-- Phone in Talk Icon -->
+                  <svg class="c-icon c-icon--phone-in-talk is-negative" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone In Talk</title><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 12h2c0-4.97-4.03-9-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2c0-2.76-2.24-5-5-5v2c1.66 0 3 1.34 3 3z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content">Timothy B.</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Golf</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Retention Email</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (234) 253-5233</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">New Guest</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content is-negative">1 min</span>
+                </td>
+              </tr>
+
+              <tr class="is-medium-priority">
+                <td>
+                  <!-- Phone Paused Icon -->
+                  <svg class="c-icon c-icon--phone-paused  is-alterable" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone Paused</title><path d="M17 3h-2v7h2V3zm3 12.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 3v7h2V3h-2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Cycle</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Feedback form</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (902) 428-6792</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">New Guest</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">51 sec</span>
+                </td>
+              </tr>
+
+              <tr class="is-medium-priority">
+                <td>
+                  <!-- Phone Paused Icon -->
+                  <svg class="c-icon c-icon--phone-paused is-alterable " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone Paused</title><path d="M17 3h-2v7h2V3zm3 12.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 3v7h2V3h-2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">3</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Winter Special</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (503) 588-2420</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">New Caller</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">47 sec</span>
+                </td>
+              </tr>
+
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone in Talk Icon -->
+                  <svg class="c-icon c-icon--phone-in-talk  " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone In Talk</title><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 12h2c0-4.97-4.03-9-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2c0-2.76-2.24-5-5-5v2c1.66 0 3 1.34 3 3z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content">Greg F.</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Room</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Winter Special</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (938) 123-3567</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Unknown</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">44 sec</span>
+                </td>
+              </tr>
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone in Talk Icon -->
+                  <svg class="c-icon c-icon--phone-in-talk  " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone In Talk</title><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 12h2c0-4.97-4.03-9-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2c0-2.76-2.24-5-5-5v2c1.66 0 3 1.34 3 3z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content">Gerry F</span>
+                </td>
+               <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Golf</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (404) 404-0404</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Unknown</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">41 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Retention Email</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (421) 489-3489</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Previous Caller</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">40 sec</span>
+                </td>
+              </tr>
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Café</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Weekly Special</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (320) 439-3933</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">New Caller</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">40 sec</span>
+                </td>
+              </tr>
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Room</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+38</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Current Guest</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">39 sec</span>
+                </td>
+              </tr>
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Photo</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">A wonderful world</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (293) 552-9282</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Previous Caller</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">38 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Weekly Special</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (334) 329-5985</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">New Caller</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">37 sec</span>
+                </td>
+              </tr>
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Golf</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Green Tee Offer</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (387) 849-9999</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Previous Caller</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">36 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Chat bubble Icon -->
+                  <svg class="c-icon c-icon--chat-bubble is-online " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Chat Bubble</title><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Feedback form</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">35 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Chat bubble Icon -->
+                  <svg class="c-icon c-icon--chat-bubble is-online " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Chat Bubble</title><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Feedback form</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">35 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Chat bubble Icon -->
+                  <svg class="c-icon c-icon--chat-bubble is-online " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Chat Bubble</title><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Feedback form</span>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">35 sec</span>
+                </td>
+              </tr>
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Golf</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (404) 404-0404</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Unknown</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">53 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Retention Email</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (421) 489-3489</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Previous Caller</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">35 sec</span>
+                </td>
+              </tr>
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Café</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Weekly Special</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (320) 439-3933</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">New Caller</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">34 sec</span>
+                </td>
+              </tr>
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Room</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+38</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Current Guest</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">39 sec</span>
+                </td>
+              </tr>
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Golf</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Green Tee Offer</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (387) 849-9999</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Previous Caller</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">36 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Chat bubble Icon -->
+                  <svg class="c-icon c-icon--chat-bubble is-online " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Chat Bubble</title><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Feedback form</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">35 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Chat bubble Icon -->
+                  <svg class="c-icon c-icon--chat-bubble is-online " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Chat Bubble</title><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Feedback form</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">35 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Golf</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Green Tee Offer</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (387) 849-9999</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Previous Caller</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">36 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Chat bubble Icon -->
+                  <svg class="c-icon c-icon--chat-bubble is-online " version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Chat Bubble</title><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Feedback form</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">35 sec</span>
+                </td>
+              </tr>
+
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Golf</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (404) 404-0404</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Unknown</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">53 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Spa</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content">Retention Email</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+1 (421) 489-3489</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Previous Caller</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">35 sec</span>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>
+                  <!-- Phone Icon -->
+                  <svg class="c-icon c-icon--phone" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-labelledby="title" role="img" viewBox="0 0 24 24"><title>Phone</title><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+                </td>
+                <td class="c-table__priority-3">
+                  <span class="c-table__label">Name</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Skill</span>
+                  <span class="c-table__content">
+                    <span class="c-label c-label--grey">Room</span></span>
+                </td>
+                <td class="c-table__priority-2">
+                  <span class="c-table__label">Campaign</span>
+                  <span class="c-table__content"></span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ANI</span>
+                  <span class="c-table__content">+38</span>
+                </td>
+                <td class="c-table__priority-1">
+                  <span class="c-table__label">Type</span>
+                  <span class="c-table__content">Current Guest</span>
+                </td>
+                <td class="c-table__priority-4">
+                  <span class="c-table__label">ET</span>
+                  <span class="c-table__content">39 sec</span>
+                </td>
+              </tr>
+
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+        <!-- Agents -->
+        <div class="o-article__list u-hide">
+          <div class="c-card c-card--bleed">
+
+          </div>
+        </div>
+
+
+      </article>
+    </main>
+</body>
+<script>
+  function requestFullScreen() {
+    var el = document.getElementById("article");
+    // Supports most browsers and their versions.
+    var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen
+      || el.mozRequestFullScreen || el.msRequestFullScreen;
+
+    if (requestMethod) {
+
+      // Native full screen.
+      requestMethod.call(el);
+
+    } else if (typeof window.ActiveXObject !== "undefined") {
+
+      // Older IE.
+      var wscript = new ActiveXObject("WScript.Shell");
+
+      if (wscript !== null) {
+        wscript.SendKeys("{F11}");
+      }
+    }
+  }
+</script>
+</html>
